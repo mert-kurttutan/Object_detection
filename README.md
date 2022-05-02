@@ -12,4 +12,4 @@ It contains two main parts:
 
 - YOLO_TF:
   - This folder contains tensorflow implementation of darknet19 model for object detection. It contains hyperparater tunini with kerastuner.
-  - THis folder also contains implementatino of deployment pipeline using TFX framework.
+  - It also contains implementatino of deployment pipeline using TFX framework.
