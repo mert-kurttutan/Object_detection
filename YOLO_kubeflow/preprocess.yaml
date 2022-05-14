@@ -1,0 +1,29 @@
+name: Transform-data
+description: Transforms raw data into format needed for YOLO models
+inputs:
+- {name: Input bucket, type: String, description: 'Data for input 1'}
+- {name: Input blob_path, type: String, default: 'training_data', description: 'Number of lines to copy'}
+outputs:
+  - {name: Output file, type: String, description: 'Output 1 data.'}
+
+metadata:
+  annotations:
+    author: Alexey Volkov <alexey.volkov@ark-kun.com>
+    canonical_location: 'https://raw.githubusercontent.com/Ark-kun/pipeline_components/master/components/sample/keras/train_classifier/component.yaml'
+implementation:
+  container:
+    image: gcr.io/kubeflow-349817/obj-det-kflow199121/try:v3
+    command: [
+      python3, 
+      # Path of the program inside the container
+      /opt/workdir/run_preprocess.py,
+      --bucket,
+      {inputValue: Input bucket},
+      --blob-path, 
+      {inputValue: Input blob_path},
+      --output1-path, 
+      {outputPath: Output file},
+      --kfp,
+    ]
+
+    

@@ -74,9 +74,6 @@ def parse_page_VOC(ann, ann_dir, image_dir, labels=[]):
 					path_to_image = os.path.join(image_dir, elem.text)
 					image['file'] = path_to_image
 	
-					if not os.path.exists(path_to_image):
-							raise ValueError("file does not exist!\n{path_to_image}")
-			
 			# Attach image width and height
 			if 'width' in elem.tag:
 					image['width'] = int(elem.text)

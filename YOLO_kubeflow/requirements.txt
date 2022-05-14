@@ -1,0 +1,4 @@
+google-cloud-storage
+pandas
+opencv-python
+scikit-image

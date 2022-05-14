@@ -1,6 +1,4 @@
 import copy
-
-from yaml import SequenceEndEvent
 import cv2
 import skimage.io as io
 import numpy as np

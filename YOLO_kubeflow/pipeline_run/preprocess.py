@@ -14,7 +14,7 @@ from src import (dataParser as dp,
 
 
 
-def transform_data():
+def preprocess(bucket: str, data_zip: str):
     
     # VOC
     os.system("wget http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar")
@@ -22,7 +22,7 @@ def transform_data():
     
     
     # Parse annotations 
-    train_image_folder = "./VOCdevkit/VOC2012/JPEGImages/"
+    train_image_folder = "./Images/"
     train_annot_folder = "./VOCdevkit/VOC2012/Annotations/"
 
 
@@ -49,4 +49,19 @@ def transform_data():
     jsonString = json.dumps(LABELS)
     with open("./LABELS.json", "w") as f2:
         f2.write(jsonString)
+        
+        
+    
+    # Get images directory to top level
+    os.system("mv ./VOCdevkit/VOC2012/JPEGImages ./Images")
+    
+    # Delete unnecessay folders/files
+    os.system("rm -rf ./VOCdevkit")
+    
+    # Compress training data
+    os.system(f"zip -r {data_zip} Images LABELS.json train_image.json")
+    
+    # Upload GCS
+    os.system(f"gsutil -m cp -r {data_zip} gs://{bucket}/")
+    
 

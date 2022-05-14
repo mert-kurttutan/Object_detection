@@ -3,6 +3,7 @@ import json
 import random
 import numpy as np
 import os
+from google.cloud import storage
 
 # TF-related packages
 import tensorflow as tf
@@ -24,11 +25,21 @@ def find_device(prior="CPU"):
         
         
         
+def download_blob(bucket_name, source_blob_name, destination_file_name):
+    """Downloads a blob from the bucket."""
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+    blob.download_to_filename(destination_file_name)
+
+    print(f'Blob {source_blob_name} downloaded to {destination_file_name}.')
+
+        
 # Device on which training to be done
 DEVICE = find_device()
 
 
-def train():
+def train(bucket, data_zip):
 
     _ANCHORS01 = np.array([0.19, 0.40,
                            0.79, 0.74,
@@ -43,9 +54,12 @@ def train():
     
     anchors_tf = tf.convert_to_tensor(ANCHORS)
     
+    # Download zip file for preprocessed training data
     
-    train_image = json.load(open("/home/jupyter/Object_detection/YOLO_kubeflow/train_image.json", 'r'))
-    LABELS = json.load(open("/home/jupyter/Object_detection/YOLO_kubeflow/LABELS.json", 'r'))
+    download_blob(bucket, data_zip, data_zip)
+    os.system(f"unzip {data_zip}")
+    train_image = json.load(open("./train_image.json", 'r'))
+    LABELS = json.load(open("./LABELS.json", 'r'))
 
     IMAGE_H, IMAGE_W = 416, 416
     BATCH_SIZE       = 16
@@ -164,11 +178,11 @@ def train():
         myVGG.compile(loss=loss ,optimizer=optimizer)
         
         
-    print("Starting training ......")
+    print("Started training ......")
     myVGG.fit(  x = train_batch_generator, 
-            validation_data = val_batch_generator,
-            steps_per_epoch  = len(train_batch_generator), 
-            epochs           = 100, 
-            verbose          = 1,
-            callbacks        = [early_stop, ], 
-            max_queue_size   = 3)
+                validation_data = val_batch_generator,
+                steps_per_epoch  = len(train_batch_generator), 
+                epochs           = 100, 
+                verbose          = 1,
+                callbacks        = [early_stop, ], 
+                max_queue_size   = 3)
