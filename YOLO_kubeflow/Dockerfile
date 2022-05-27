@@ -13,10 +13,9 @@
 # limitations under the License.
 
 FROM tensorflow/tensorflow:latest-gpu-jupyter
-#FROM python:3.7
-# install gcloud
+
 RUN rm /etc/apt/sources.list.d/cuda.list
-RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+#RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get update && apt-get install -y jq
 RUN  apt-get update \
   && apt-get install -y wget
@@ -24,10 +23,6 @@ RUN  apt-get update \
   && apt-get install -y zip
   
 RUN apt-get update && apt-get install -y python3-opencv
-RUN python3 -m pip install google-cloud-storage
-RUN python3 -m pip install pandas
-RUN python3 -m pip install opencv-python
-RUN python3 -m pip install scikit-image
 
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
 RUN mkdir -p /usr/local/gcloud
@@ -36,10 +31,12 @@ RUN /usr/local/gcloud/google-cloud-sdk/install.sh
 
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
  
-
 COPY . /opt/workdir
-
-# install python packages
+RUN python3 -m pip install -r /opt/workdir/requirements.txt
+#RUN python3 -m pip install google-cloud-storage
+#RUN python3 -m pip install pandas
+#RUN python3 -m pip install opencv-python
+#RUN python3 -m pip install scikit-image
 WORKDIR /opt/workdir
 
-# COPY ./requirements.txt /requirements.txt
+

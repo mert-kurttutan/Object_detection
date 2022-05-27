@@ -8,11 +8,10 @@ outputs:
 
 metadata:
   annotations:
-    author: Alexey Volkov <alexey.volkov@ark-kun.com>
-    canonical_location: 'https://raw.githubusercontent.com/Ark-kun/pipeline_components/master/components/sample/keras/train_classifier/component.yaml'
+    author: Mert Kurttutan <kurttutan.mert@gmail.com>
 implementation:
   container:
-    image: gcr.io/kubeflow-349817/obj-det-kflow199121/try:v3
+    image: gcr.io/kubeflow-349817/obj-det-kflow199121/try:v4
     command: [
       python3, 
       # Path of the program inside the container

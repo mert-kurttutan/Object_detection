@@ -1,4 +1,3 @@
-
 import json
 import random
 import numpy as np
@@ -22,6 +21,7 @@ def find_device(prior="CPU"):
     for my_device in tf.config.list_logical_devices():
         if my_device.device_type == prior:
             return my_device.name
+    return my_device.name
         
         
         
@@ -35,11 +35,13 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
     print(f'Blob {source_blob_name} downloaded to {destination_file_name}.')
 
         
-# Device on which training to be done
-DEVICE = find_device()
 
 
-def train(bucket, data_zip):
+
+def train(bucket, data_zip, processor="CPU"):
+    
+    # Device on which training to be done
+    DEVICE = find_device(prior=processor)
 
     _ANCHORS01 = np.array([0.19, 0.40,
                            0.79, 0.74,
@@ -50,7 +52,6 @@ def train(bucket, data_zip):
     ANCHORS          = _ANCHORS01.astype(np.single)
     ANCHORS[::2]     = ANCHORS[::2]*GRID_W  
     ANCHORS[1::2]    = ANCHORS[1::2]*GRID_H  
-    ANCHORS
     
     anchors_tf = tf.convert_to_tensor(ANCHORS)
     
@@ -94,6 +95,7 @@ def train(bucket, data_zip):
     myVGG = obj_det_model.VGGYOLO(CLASS=len(LABELS), BOX=len(_ANCHORS01)//2)
     
     
+    # Use pretrained weights from original YOLOV2 paper
     os.system("wget https://pjreddie.com/media/files/yolov2.weights")
     
     path_to_weight = "./yolov2.weights"
@@ -102,7 +104,8 @@ def train(bucket, data_zip):
     
     weight_reader.reset()
     nb_conv = 23
-
+    
+    # Load the weights to the model
     for i in range(1, nb_conv):
         conv_layer = myVGG.get_layer('conv_' + str(i))
 
@@ -142,7 +145,7 @@ def train(bucket, data_zip):
         layer.set_weights([new_kernel, new_bias])
         
     
-    print("Set the weights of the model #######")
+    print("Finished setting the weights of the model.......")
     
     loss = obj_det_model.YoloLoss(anchors_tf, len(LABELS),
               w_coord=.5, w_class=1, w_conf=.5, lam_obj=5, lam_noobj=1,
