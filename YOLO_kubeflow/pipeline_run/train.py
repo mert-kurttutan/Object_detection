@@ -19,6 +19,7 @@ from src import (dataParser as dp,
 PRECISION = tf.float32
 
 def find_device(prior="CPU"):
+    """Returns device name with priority given to prior"""
     for my_device in tf.config.list_logical_devices():
         if my_device.device_type == prior:
             return my_device.name
@@ -40,7 +41,19 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
 
 
 def train(bucket, data_zip, processor="CPU"):
+    """
+    Trains vgg model with darknet19 architecture for object detection problem
+    and stores the model Google cloud storage (GCS).
+    The training data is extracted from GCS bucket bucket and file datazip
+    The stored dataset in compressed zip format.
     
+    Args:
+      bucket: str: name of GCS bucket where training data is stored
+      data_zip: str: name of zip file that contains training data
+
+    Returns:
+      The new minimum port.
+    """
     # Device on which training to be done
     DEVICE = find_device(prior=processor)
 
@@ -190,3 +203,7 @@ def train(bucket, data_zip, processor="CPU"):
                 verbose          = 1,
                 callbacks        = [early_stop, ], 
                 max_queue_size   = 3)
+    
+    
+    # Upload end model to GCS
+    os.system(f"gsutil -m cp -r {'./models/yolo_v2/weights_v1.h5'} gs://{bucket}/")

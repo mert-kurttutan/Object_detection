@@ -11,7 +11,7 @@ metadata:
     author: Mert Kurttutan <kurttutan.mert@gmail.com>
 implementation:
   container:
-    image: gcr.io/kubeflow-349817/obj-det-kflow199121/try:v4
+    image: gcr.io/kubeflow-349817/obj-det-kflow199121/try:v6
     command: [
       python3, 
       # Path of the program inside the container

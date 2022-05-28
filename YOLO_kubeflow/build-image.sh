@@ -1,1 +1,1 @@
-gcloud builds submit . --tag=gcr.io/kubeflow-349817/obj-det-kflow199121/try:v4 --timeout=3600
+gcloud builds submit . --tag=gcr.io/kubeflow-349817/obj-det-kflow199121/try:v6 --timeout=3600
