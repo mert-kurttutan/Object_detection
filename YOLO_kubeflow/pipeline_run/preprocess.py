@@ -12,6 +12,8 @@ from tensorflow import keras
 from src import (dataParser as dp, 
                  utils)
 
+# TODO: Generalize to include options for different dataset
+# TODO: Write input from pipeline to include hyperparameter settings
 
 
 def preprocess(bucket: str, data_zip: str):
