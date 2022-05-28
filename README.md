@@ -1,7 +1,6 @@
 # YOLOv2 Model for Object Detection
 
 This is a repository of my implementation of YOLOv2 model based on DarkNet19 architecture. Both pytorch and tensorflow version is implemented.
-During preparation of this project, I greatly benefitted from <a href=https://fairyonice.github.io/Part_1_Object_Detection_with_Yolo_for_VOC_2014_data_anchor_box_clustering.html> this online post </a> implemented in tensorflow v1.
 
 # Description
 
@@ -20,3 +19,7 @@ It contains two main parts:
   - TO DO: 
     - Generalize the data preprocessing step to extract other datasets (other than VOC)
     - Add deployment part once kubeflow tf serving documentation is up-to-date.
+Source:
+- https://www.kubeflow.org/docs/distributions/gke/deploy/
+- https://www.tensorflow.org/tfx/tutorials
+- https://fairyonice.github.io/tag/object-detection-using-yolov2-on-pascal-voc2012-series.html
