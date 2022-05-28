@@ -39,7 +39,7 @@ def parse_arguments(argv=None):
 
 
 def run_preprocess(argv=None):
-    """Transforms data"""
+    """Preprocess the image data to the desired form"""
     
     args = parse_arguments(sys.argv if argv is None else argv)
     preprocess(bucket=args.bucket, data_zip=args.blob_path)

@@ -1,3 +1,4 @@
+# Script for training model on preprocessed data.
 import json
 import random
 import numpy as np

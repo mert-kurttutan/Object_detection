@@ -1,8 +1,8 @@
 name: Train-data
 description: Transforms raw data into format needed for YOLO models
 inputs:
-- {name: Input bucket, type: String, description: 'Data for input 1'}
-- {name: Input blob_path, type: String, default: 'training_data.zip', description: 'Number of lines to copy'}
+- {name: Input bucket, type: String, description: 'Name of bucket that stores preprocessed data in GCS'}
+- {name: Input blob_path, type: String, default: 'training_data.zip', description: 'Name of the file that stores preprocessed training data'}
 outputs:
 
 

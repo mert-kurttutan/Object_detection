@@ -1,10 +1,10 @@
 name: Transform-data
-description: Transforms raw data into format needed for YOLO models
+description: Transforms raw data into format needed for YOLO models and saves the path of file as output artifacts
 inputs:
 - {name: Input bucket, type: String, description: 'Data for input 1'}
-- {name: Input blob_path, type: String, default: 'training_data', description: 'Number of lines to copy'}
+- {name: Input blob_path, type: String, default: 'training_data', description: 'Path of folder inside the storage bucket'}
 outputs:
-  - {name: Output file, type: String, description: 'Output 1 data.'}
+  - {name: Output file, type: String, description: 'Name of the file that stores the name of path of preprocessed data inside bucket.'}
 
 metadata:
   annotations:

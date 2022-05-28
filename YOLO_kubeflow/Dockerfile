@@ -33,10 +33,7 @@ ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
  
 COPY . /opt/workdir
 RUN python3 -m pip install -r /opt/workdir/requirements.txt
-#RUN python3 -m pip install google-cloud-storage
-#RUN python3 -m pip install pandas
-#RUN python3 -m pip install opencv-python
-#RUN python3 -m pip install scikit-image
+
 WORKDIR /opt/workdir
 
 
